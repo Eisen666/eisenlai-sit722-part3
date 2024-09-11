@@ -8,16 +8,16 @@ FROM --platform=linux/amd64 python:3.11-alpine
 WORKDIR /app/
 
 # Copy the dependency list into the container
-COPY requirements.txt .
+COPY inventory_management/requirements.txt .
 
 # Install the dependencies listed in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the source code of the book_catalog microservice into contaniner
-COPY . .
+COPY ./inventory_management/app ./app
 
 # Inform Docker that the container will listen on port 8000
-EXPOSE 8000
+EXPOSE 8001
 
 # Define the command to run the application using uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
