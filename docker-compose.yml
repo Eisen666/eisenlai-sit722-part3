@@ -1,1 +1,39 @@
-# Your Solution
+version: '3'
+
+services:
+  # Define the book_catalog microservice
+  book_catalog:
+    build: ./book_catalog
+    environment:
+      # Set the environment variable for connecting to Render PostgreSQL
+      DATABASE_URL: "postgresql://eisenlaiweek7part2_user:dhtWUdI5s0K0dH8CjGUWcjP30CeyInjv@dpg-crgjhetsvqrc73f2hkqg-a.oregon-postgres.render.com/eisenlaiweek7part2"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - render_postgres
+
+  # Define the inventory_management microservice
+  inventory_management:
+    build: ./inventory_management
+    environment:
+      # Set the environment variable for connecting to Render PostgreSQL
+      DATABASE_URL: "postgresql://eisenlaiweek7part2_user:dhtWUdI5s0K0dH8CjGUWcjP30CeyInjv@dpg-crgjhetsvqrc73f2hkqg-a.oregon-postgres.render.com/eisenlaiweek7part2"
+    ports:
+      - "8001:8001"
+    depends_on:
+      - render_postgres
+
+  # Define the Render PostgreSQL service connection placeholder
+  render_postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: eisenlaiweek7part2_user
+      POSTGRES_PASSWORD: dhtWUdI5s0K0dH8CjGUWcjP30CeyInjv
+      POSTGRES_DB: eisenlaiweek7part2
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
